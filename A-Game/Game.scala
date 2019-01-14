@@ -1,5 +1,6 @@
 import java.util.Base64
 import java.nio.charset.StandardCharsets
+import scala.util.control.Breaks._
 
 object Game {
   def main(args: Array[String]){
@@ -33,13 +34,15 @@ object Game {
       
         println("Would you like to play?")
         var playornot = scala.io.StdIn.readLine()
+        
         if (playornot == "yes"){
             var status = true
-            //   startGame()
-            System.exit(0)
+            
+              startGame()
+              break
         } else if (playornot == "no") {
             var status = true
-            //   beThatWay()
+            println("Fine be that way... Have a good day.")
             System.exit(0)
         }
       }
@@ -49,5 +52,61 @@ object Game {
       println("Sorry you are not playing today buddy.")
   }
 
+  def startGame(){
+      println("One Day early asf in the morning Jon is woken to two lovely dogs licking his face......")
+      Thread.sleep(3000)
+      println(""" 
+                 
+
+                              ,.  , 
+                          .-. \ \| \ 
+             ,---._    _,-.> `.\ \ ( 
+            (__,'  `   `>-         -\ 
+                     ,-'             `-. 
+         ,-'       ,  ,    .       .    `. 
+       ,'\       ,' ,-'    `-.      ;    :`. 
+      (__;     ,',,'      ,   `     : `. :  \ 
+             ,' |  _,'   /_    `    :  ; :   \ 
+            /  ,',' |   /  \        '     ;   \ 
+           /   | |(o|  /  (o)          |  |    ; 
+          /     ___-^-^-----.          |  |    | 
+         (   ,---. `-.           :.    |       : 
+          ;,'      )  `          :..   |        | 
+          :\      /              :.    |        ; 
+          :.`-.__,              ,:`    |        | 
+          ;`.    .             ':'      \      , 
+         /   `-.__\           '      ,   \     \. 
+        (   ,'    \`--,-----.       /     \     \`. 
+         `-'       \,' ,'   /    / |       \     | `. 
+      -hrr-        /  '   ,'    /-.|        `.   ;   `. 
+                  (      /`----'   |          `--'     ` 
+                   `.__,' 
+                 """)
+
+      println("He knows what they want...")
+      Thread.sleep(4000)
+      println("Do you go back to 'sleep' or 'wake up' and take the little buggers out?")
+      var wakeUp = scala.io.StdIn.readLine()
+
+      if (wakeUp == "wake up") {
+
+      } else {
+          println("You decide to go back to sleep .... They can wait......")
+          Thread.sleep(2000)
+          println(""" 
+                       __
+                    __/o \_
+                    \____  \
+                        /   \
+                __   //\   \
+                __/o \-//--\   \_/
+                \____  ___  \  |
+                    ||   \ |\ |
+                    _||   _||_||
+                """)
+      }
+        
+
+  }
 
 }
