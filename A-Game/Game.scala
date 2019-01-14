@@ -28,15 +28,20 @@ object Game {
       Thread.sleep(3000)
       println("However this game is about 2 Newfies and well Jon.")
       Thread.sleep(3000)
-      println("Would you like to play?")
-      var playornot = scala.io.StdIn.readLine()
-
-      if (playornot == "Yes"){
-          startGame()
-      } else if (playornot == "No"){
-          beThatWay()
-      } else {
-          println("Invalid Response")
+      var status = false
+      while(status == false){
+      
+        println("Would you like to play?")
+        var playornot = scala.io.StdIn.readLine()
+        if (playornot == "yes"){
+            var status = true
+            //   startGame()
+            System.exit(0)
+        } else if (playornot == "no") {
+            var status = true
+            //   beThatWay()
+            System.exit(0)
+        }
       }
   }
 
