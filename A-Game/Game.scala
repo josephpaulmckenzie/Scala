@@ -7,8 +7,7 @@ import scala.collection.mutable.ArrayBuffer
 object Game {
   def main(args: Array[String]) {
     //   println(new Home home)
-    
- 
+
     println("You must be Authorized to play this game.")
     println("Please enter your username")
     var username = scala.io.StdIn.readLine()
@@ -88,7 +87,7 @@ object Game {
          /   `-.__\           '      ,   \     \. 
         (   ,'    \`--,-----.       /     \     \`. 
          `-'       \,' ,'   /    / |       \     | `. 
-      -hrr-        /  '   ,'    /-.|        `.   ;   `. 
+      -woof-        /  '   ,'    /-.|        `.   ;   `. 
                   (      /`----'   |          `--'     ` 
                    `.__,' 
                  """)
@@ -100,21 +99,22 @@ object Game {
     var wakeUp = scala.io.StdIn.readLine()
 
     if (wakeUp == "wake up") {
-        wakeup()
+      wakeup()
     } else {
       sleep()
     }
 
   }
 
-  def wakeup(){
-      var inventoryList = ArrayBuffer[String]()
-      println("You roll out of bed ready to greet the day....")
-      inventoryList += "1 iphone X"
-      Thread.sleep(2000)
-      println("After giving Teecee and Coder hugs and kisses (and a few licks too) ... you make yourself a cup of coffee and go to grab the leashes")
-      
-      println("""
+  def wakeup() {
+    var inventoryList = ArrayBuffer[String]()
+    println("You roll out of bed ready to greet the day....")
+    inventoryList += "1 iphone X"
+    Thread.sleep(2000)
+    println(
+      "After giving Teecee and Coder hugs and kisses (and a few licks too ;) ) ... you make yourself a cup of coffee and go to grab the leashes")
+
+    println("""
                     ╭╯╭╯╭╯
                     █▓▓▓▓▓█═╮
                     █▓▓▓▓▓█▏︱
@@ -122,44 +122,47 @@ object Game {
                     ◥█████◤
 
                 """)
-    
+
     inventoryList += "1 Cup of Coffee"
 
-      println("*** You added 1 cup of coffee to your inventory ***")
-      println("Current Inventory " + inventoryList.mkString(","))
-      val r = new scala.util.Random
-      val dropOrNot = 1 + r.nextInt(( 3 - 2) + 1)
+    println("*** You added 1 cup of coffee to your inventory ***")
+    println("Current Inventory " + inventoryList.mkString(", "))
+    val r = new scala.util.Random
+    val dropOrNot = 1 + r.nextInt((3 - 2) + 1)
+    Thread.sleep(2000)
+    if (dropOrNot == 1) {
+      println("The pups are getting antsy and .......")
       Thread.sleep(2000)
-      if (dropOrNot == 1) {
-          println("The pups are getting antsy and .......")
-          Thread.sleep(2000)
-          println("You drop your coffee cup whilst reaching for the leashes")
-          inventoryList -= "1 Cup of Coffee"
-          inventoryList.toArray
-          println("*** 1 cup of coffee was removed from your inventory ***")
-          println("Current Inventory" + inventoryList.mkString(","))
-          Thread.sleep(2000)
-          println("Would you like to 'make' another cup of coffee or just 'leave' now?")
-          val coffee = scala.io.StdIn.readLine()
-          if (coffee == "make") {
-              println("You make another cup of coffee")
-              println("*** You added 1 cup of coffee to your inventory ***")
-              println("Current Inventory " + inventoryList.mkString(","))
-          } else if (coffee == "leave") {
-              leave(inventoryList)
-          }
-      } else {
-          leave(inventoryList)
+      println("You drop your coffee cup whilst reaching for the leashes")
+      inventoryList -= "1 Cup of Coffee"
+      inventoryList.toArray
+      println("*** 1 cup of coffee was removed from your inventory ***")
+      println("Current Inventory " + inventoryList.mkString(", "))
+      Thread.sleep(2000)
+      println(
+        "Would you like to 'make' another cup of coffee or just 'leave' now?")
+      val coffee = scala.io.StdIn.readLine()
+      if (coffee == "make") {
+        println("You make another cup of coffee")
+        println("*** You added 1 cup of coffee to your inventory ***")
+        inventoryList += "1 Cup of Coffee"
+        println("Current Inventory " + inventoryList.mkString(", "))
+        println("With another cup of coffee ready.....")
+        leave(inventoryList)
+      } else if (coffee == "leave") {
+        leave(inventoryList)
       }
-      println("")
-
-
+    } else {
+      leave(inventoryList)
+    }
   }
 
-  def sleep(){
-      println("You decide to go back to sleep .... They can wait......")
-      Thread.sleep(2000)
-      println(""" 
+  def sleep() {
+    println("You decide to go back to sleep .... They can wait......")
+    Thread.sleep(3000)
+    println("and oh how they waited .....")
+
+    println(""" 
                        __
                     __/o \_
                     \____  \
@@ -170,15 +173,125 @@ object Game {
                     ||   \ |\ |
                     _||   _||_||
                 """)
+  }
+
+  def leave(inventoryList: ArrayBuffer[String]) {
+    println(
+      "You grab the leashes wrangle up the pups and lock the door behind you....")
+    inventoryList += "Coder"
+    inventoryList += "Teecee"
+    inventoryList += "2 Leashes"
+    println("Current Inventory " + inventoryList.mkString(", "))
+    println("With the pups and your cup of coffee you head for the elevator")
+    Thread.sleep(3000)
+    println("Arriving at the elevator.....")
+    println("""
+                             ______________
+                            |.------------.|
+                            || ____  ____ ||
+                            8||    ||    |||
+                            ||:====::====:||
+                            |||____||____|||
+                            ||            ||
+                            ||            ||
+                            ||            ||
+                            ||            ||
+                            ||          _ ||
+                            ||         (_)||
+                            ||            ||
+                            ||            ||
+                            ||            ||
+                            ||            ||
+                            8|            ||
+                            ||            ||
+                            ||____________||
+                            '--------------'
+    """)
+    Thread.sleep(1000)
+    println("The doors open and who should be standing there?????")
+    Thread.sleep(4000)
+    val r = new scala.util.Random
+    val elevatorDoor = r.nextInt((1) + 1)
+    if (elevatorDoor == 0) {
+        println("No one is in the elevator")
+        Thread.sleep(2000)
+        println("The pups bound on into the elevator slightly dragging a sleepy brit behind them")
+        outSideOfHome(inventoryList)
+    } else {
+        println("That mean ol neighbor who says that the greatest newfies ever bark too much")
+        Thread.sleep(2000)
+        println("As if !!!!")
+        println("Jon just smiles nods and gets on the elevator ")
+        outSideOfHome(inventoryList)
+    }
 
   }
 
-  def leave(inventoryList: ArrayBuffer[String]){
-      inventoryList.toArray
-          println("You grab the leashes and lock the door behind you....")
-          inventoryList += "2 Leashes"
-          println("Current Inventory" + inventoryList.mkString(","))
+    def outSideOfHome(inventoryList: ArrayBuffer[String]){
+        println("Arriving outside........")
+        Thread.sleep(4000)
+        println("You go to put your hair up with your favorite manbun holder .......")
+        Thread.sleep(3000)
+        println("Oh no!!!!! It's Gone")
+        println(""" 
+                            
+                    ────────────────██████████
+                    ────────────────██████████
+                    ────────────────██████████
+                    ─────────────▄▄▄██████████▄▄▄
+                    ───────────────▄▀░░░░░░░░▀▄
+                    ──────────────▐░░▄▀▀░░▀▀▄░░▌
+                    ──────────────▐░░██▀░░▀██░░▌
+                    ──────────────▐░░░░░▀▀░░░░░▌
+                    ──────────────▐░░░░░░░░░░░░▌
+                    ──────────────▐░░░▄▀▀▀▀▄░░░▌
+                    ───────────────▀▄░░░▀▀░░░▄▀
+                    ───────────────▐▒▀▄▄▄▄▄▄▀▒▌
+                    ────────▄▄▄▄▄▄▀▀▒▓▓▓▓▓▓▓▓▒▀▀▄▄▄▄▄▄
+                    ──────▄▀▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▀▄
+                    ─────▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓
+                    ────▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▓
+                    ───▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▓
+                    ──▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▓
 
-  }
+        """)
+        Thread.sleep(3000)
+        println("The adventure starts.")
+        println("Your goal should you decide to stick to it is to find the magic manbun holder all whilst taking Teecee and Coder for a nice walk.")
+        println("You Teecee and Coder begin your journey")
+        println("""
+                                 _________
+                                |MMMMMMMMM|                _
+                    ________    |MMMMMMMMM|              _|l|_
+                    |!!!!!!!_|___|MMMMMMMMM|             |lllll|
+                    |!!!!!!|=========|MMMMM|             |lllll|_______
+                    |!!!!!!|=========|MMMMM|            _|lllll|HHHHHHH|
+                    |!!!!!!|=========|MMMMM|   ________|lllllllll|HHHHH|
+                    |!!!!!!|=========|MMMMM|  |unununun|lllllllll|HHHHH|______
+                    |!!!!!!|=========|MMMMM|  |nunununu|lllllllll|HH|:::::::::|
+                    |!!!!!!|=========|MMM__|..|un__unun|lllllllll|HH|:::::::::|
+                    |!!!!!!|=======_=|M_( ')' );' .)unu|lllllllll|HH|:::::::::|
+                    |!!!_!!|======( )|(. ` ,) (_ ', )un|lllllllll|HH|:::::::::| ~~~
+                    |!!(.)!|===__(`.')_(_ ')_,)(. _)unu|lllllllll|HH|:__::::::|~~  ~~
+                    |!(.`')|==( .)' .)MMM|M|| |un|nunun|lllllllll|``|( ,)_::::| ~~~~ ~
+                    -(: _)|=(`. ')_)|---|- '  ``|`````|lll____ll|  (_; `'):::|~~~  ~~~
+                        |  |==(_'_)|=|    ______        ''/\   \'   |(_'_)::::|\~~~~__|)__
+                        |   ''''|''o/`.-``~~~~~ ``-.     /--\___\    ``|`````` /____\____/
+                    jrei        |  h ( `; ~~~ ~~  ~ )    |M_|#_#|      ' --   __________|~
+                        --   *      '-.._~~__~..-'   --           -* -     /  ~~~~ ~~~~~~
+                    *   -   -      --           ----         ---         _.-'~~~~~     ~ ~~
+                    __--_________............-------------'''''''''''''''` ~~~~~    ~~~ ~~~~
+                    ~~    ~~~~~~~~     ~~~~~~~   ~~~~~~~~~   ~~~~~~~~~~      ~~~~~~~     ~~~
+                    ~~~~~~~~~  ~~~~  ~~~~~ ~~~~~~~~~ ~ ~      ~~~~~~ ~~~~~~     ~~~~    ~~~~
+                    ~~~~~~~~     ~~~~~~~~~~~~~~~        ~~~~~~~~~~~~ ~~~~~~  ~~~ ~~~~~~  ~~~
+         """)
+         theJourneyBegins(inventoryList)
+    }
+
+    def theJourneyBegins(inventoryList: ArrayBuffer[String]){
+        println("With a heavy *SIGH* you take a drink of your coffee and start down the sidewalk.")
+
+    }
+
 
 }
