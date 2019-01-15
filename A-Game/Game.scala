@@ -298,6 +298,8 @@ object Game {
   def theJourneyBegins(inventoryList: ArrayBuffer[String]) {
     println(
       "With a heavy *SIGH* you take a drink of your coffee and start down the sidewalk.")
+      val coffee = inventoryList.indexOf("1 Cup of Coffee")
+      inventoryList.update(coffee, "3/4 Cup of Coffee")
     Thread.sleep(2000)
     println(
       "After walking about a block down the road Teecee decides to take a poo.")
@@ -433,6 +435,27 @@ object Game {
       var checkedclubs = clubList.length
     println("You and the pups decide to check out Mother Hubbards")
     Thread.sleep(2000)
+    println("On your way to Mother Hubbards you pass yet another person asking for change.")
+    Thread.sleep(2000)
+    val money = inventoryList contains "$20 Bill"
+    if (money == true) {
+        println("Do you give them any?")
+        val giveMoney = scala.io.StdIn.readLine()
+        if (giveMoney == "yes") {
+            inventoryList -= "$20 Bill"
+            println("You removed a $20 bill from your inventory")
+        } else {
+            println("You just keep walking and ignore them")
+        }
+        
+    } else {
+        println("Sorry I don't have any cash on me.")
+        Thread.sleep(2000)
+        println("Oh that's ok..... but I do have a card swiper on my phone.")
+        Thread.sleep(2000)
+        println("You *SIGH* deeply and you and the pups keep walking")
+        println("You take another drink of your coffee")
+    }
   }
 
 }
