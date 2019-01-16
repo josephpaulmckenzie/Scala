@@ -111,7 +111,8 @@ object Game {
   def wakeup() {
     var inventoryList = ArrayBuffer[String]()
     println("You roll out of bed ready to greet the day....")
-    inventoryList += "1 iphone X"
+    addToInventory(inventoryList,"1 iphone X")
+
     Thread.sleep(2000)
     println(
       "After giving Teecee and Coder hugs and kisses (and a few licks too ;) ) ... you make yourself a cup of coffee and go to grab the leashes")
@@ -125,10 +126,7 @@ object Game {
 
                 """)
 
-    inventoryList += "4 drinks of Coffee"
-
-    println("*** You added 4 drinks of Coffee to your inventory ***")
-    println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+    addToInventory(inventoryList,"4 drinks of Coffee")
     val r = new scala.util.Random
     val dropOrNot = 1 + r.nextInt((3 - 2) + 1)
     Thread.sleep(2000)
@@ -136,10 +134,7 @@ object Game {
       println("The pups are getting antsy and .......")
       Thread.sleep(2000)
       println("You drop your coffee cup whilst reaching for the leashes")
-      inventoryList -= "4 drinks of Coffee"
-      inventoryList.toArray
-      println("*** 4 drinks of Coffee was removed from your inventory ***")
-      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+      removeFromInventory(inventoryList,"4 drinks of Coffee")
       Thread.sleep(2000)
       println(
         "Would you like to 'make' another cup of coffee or just 'leave' now?")
@@ -335,8 +330,7 @@ object Game {
                                        "Howl at the Moon",
                                        "Bub City")
     var checkedClubList = ArrayBuffer[String]()
-    println(
-      "You pass a trash can. Would you like to throw Teecee's droppings away?")
+    println("You pass a trash can. Would you like to throw Teecee's droppings away?")
     val throwAway = scala.io.StdIn.readLine()
     if (throwAway == "yes") {
       inventoryList -= "1 bag of teecee love"
@@ -706,7 +700,19 @@ object Game {
         }
       }
   }
+  
+  def addToInventory(inventoryList: ArrayBuffer[String],inventoryItem: String) {
+    inventoryList += inventoryItem
+    println(s"*** You added ${inventoryItem} to your inventory ***")
+    println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+  }
 
+
+  def removeFromInventory(inventoryList: ArrayBuffer[String],inventoryItem: String) {
+      inventoryList -= inventoryItem
+      println(s"*** ${inventoryItem} was removed from your inventory ***")
+      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+  }
 
 
    def foundIt(inventoryList: ArrayBuffer[String]){
