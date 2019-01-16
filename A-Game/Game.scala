@@ -299,8 +299,6 @@ object Game {
   def theJourneyBegins(inventoryList: ArrayBuffer[String]) {
     println(
       "With a heavy *SIGH* you take a drink of your coffee and start down the sidewalk.")
-      // val coffee = inventoryList.indexOf("4 drinks of Coffee")
-      // inventoryList.update(coffee, "3 drinks of Coffee")
       drinkCoffee(inventoryList)
     Thread.sleep(2000)
     println(
@@ -319,7 +317,6 @@ object Game {
       println("You added 1 bag of teecee's love")
       println("Current Inventory " + EOL + inventoryList.mkString(EOL))
       trashCan(inventoryList)
-
     } else {
       println("Nothing out of the ordinary happens")
       println(
@@ -359,27 +356,23 @@ object Game {
   def listOfClubs(inventoryList: ArrayBuffer[String],
                   clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
     println("Where would you like to check?")
-    // println("Places to Check " + EOL + clubList.mkString(EOL))
     for (i <- 0 until clubList.length) {
       println(s"${clubList(i)}")
     }
 
     val club = scala.io.StdIn.readLine()
     if (club == "Theory") {
-      clubList -= "Theory"
-      checkedClubList += "Theory"
       goToTheory(inventoryList, clubList,checkedClubList)
     } else if (club == "Mother Hubbards") {
-      clubList -= "Mother Hubbards"
-      checkedClubList +=  "Mother Hubbards"
       leaveForMotherHubbards(inventoryList, clubList,checkedClubList)
     } else if (club == "Howl at the Moon"){
-      checkedClubList +=  "Howl at the Moon"
       leaveForHowlAtTheMoon(inventoryList, clubList,checkedClubList)
     } else if (club == "Bub City") {
-      clubList -= "Bub City"
-      checkedClubList += "Bub City"
       leaveForBubCity(inventoryList, clubList,checkedClubList)
+    } else {
+      println("Please enter a vaild choice: ")
+      listOfClubs(inventoryList, clubList,checkedClubList)
+    
     }
   }
 
@@ -428,18 +421,9 @@ object Game {
     } else {
       println("How can I help you sir?")
       Thread.sleep(1000)
-      println(
-        "Yes I have seemed to lost my favorite manbun holder. Has it been turned in by chance?")
-      // if (checkedclubs == 0) {
-      //   println("Yes actually we did find it")
-      // } else {
-      //   println("Sorry not that I know of let me check...")
-      //   Thread.sleep(5000)
-      //   println(
-      //     "Sorry sir we have not found it, but feel free to come back tonight and we can check again. Where else have you checked?")
-      //     println(s"Yes I have checked ${checkedClubList.mkString(" & ")} so far")
-      //   listOfClubs(inventoryList, clubList,checkedClubList)
-      // }
+      println("Yes I have seemed to lost my favorite manbun holder. Has it been turned in by chance?")
+      clubList -= "Theory"
+      checkedClubList += "Theory"
       foundItYet(inventoryList, clubList,checkedClubList)
     }
   }
@@ -470,9 +454,7 @@ object Game {
         println("Oh that's ok..... but I do have a card swiper on my phone.")
         Thread.sleep(2000)
         println("You *SIGH* deeply and you and the pups keep walking")
-        println("You take another drink of your coffee")
-        // val coffee = inventoryList.indexOf("3 drinks of Coffee")
-        // inventoryList.update(coffee, "2 drinks of Coffee")
+       
         drinkCoffee(inventoryList)
         println("Current Inventory " + EOL + inventoryList.mkString(EOL))
         arriveAtMotherHubbards(inventoryList,clubList,checkedClubList)
@@ -509,15 +491,9 @@ object Game {
       """)
       Thread.sleep(2000)
       println("Excuse me sir but has anyone turned in a manbun holder? It is my most favorite one and I seem to have lost it.")
-      if (checkedclubs == 0){
-        println("Yes we actually did find it, it looks like a very special manbun holder. I'm glad we were able to find it for you.")
-      } else {
-          println("I'm quite sorry sir but I don't believe we have but let me check and see.")
-          Thread.sleep(4000)
-          println("I'm sorry sir but we have not had anyone turn in any manbun holder. Have you checked any place else?")
-           println(s"Yes I have checked ${checkedClubList.mkString(" & ")} so far")
-        }
-            listOfClubs(inventoryList, clubList,checkedClubList)
+      clubList -= "Mother Hubbards"
+      checkedClubList += "Mother Hubbards"
+      foundItYet(inventoryList, clubList,checkedClubList)
 
       }
 
@@ -561,15 +537,14 @@ object Game {
       }
 
     def arriveAtHowlAtTheMoon(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
-      var checkedclubs = checkedClubList.length
-      println("CHECKED CLUBS" + checkedclubs)
+      val checkedclubs = checkedClubList.length
     println("Arriving at Howl at the Moon you find......")
     if (checkedclubs <= 1 ) {
         println("The doors locked up tight and no one will answer you knock on the door :( ")
         println("Guess you will have to check back later")
         listOfClubs(inventoryList, clubList,checkedClubList)
     } else {
-        clubList -= "Howl at the Moon"
+        
         println("At first it appears no one is there but lucky for someone comes to the door after your second attempt at knocking.")
         println("""
                             ////^\\\\
@@ -595,13 +570,8 @@ object Game {
         Thread.sleep(3000)
         println("Let me go and check for you.")
         Thread.sleep(5000)
-        // if (checkedclubs == 4 ){
-        //   println("Why yes actually someone did turn it in. Here you are.")
-        // } else {
-        //   println("I'm quite sorry sir but I do not see it anywhere prehaps you would like to check back tonight?")
-        //   println("*SIGH* Well thanks anyways. Have a good day prehaps I will check later if I do not find it.")
-        //   listOfClubs(inventoryList, clubList,checkedClubList)
-        // }
+        clubList -= "Howl at the Moon"
+        checkedClubList +=  "Howl at the Moon"
         foundItYet(inventoryList, clubList,checkedClubList)
     }
    }
@@ -672,27 +642,50 @@ object Game {
    }
 
   def arriveAtBubCity(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) { 
-    println("Arriving at Bub City.")
-    
+    println("Arriving at Bub City. You see the cops a few doors down harrasing a bum.")
+    Thread.sleep(3000)
+    println("""
+                         ____            ____            ____
+                        /....\          /....\          /....\
+                .-.    |::::::|    .-. |::::::|    .-. |::::::|
+                | |    |::::::|    | | |::::::|    | | |::::::|
+                | |    (`:'':')    | | (`:'':')    | | (`:'':')
+                | |   _--|__|--__  | |.--|__|--__  | |_--|__|--__
+                | |  |   ________|_|_|_  ________|_|_|_  ________|_____
+                | | /    |            |  |            |  |            |
+                | |/  /  |            |  |            |  |            |
+                |_| |/|  |            |  |            |  |            |
+               (===)| |  |  C  D  P   |  |  C  D  P   |  |  C  D  P   |
+               `==='  |`-|            |`-|            |`-|            |
+                | |   |`-|            |`-|            |`-|            |
+                |_|   |  |            |  |            |  |            |
+                      |  |            |  |            |  |            |
+                      |  |            |  |            |  |            |
+                      |`-|            |`-|            |`-|            |
+                      |__|            |__|            |__|            |
+                      /_ |            |_ |            |_ |            |
+                    |___`-__________-'__`-__________-'__`-__________-'
+    """)
+    Thread.sleep(2000)
+    println("Not wanting to put off finding your favortite manbun holder any longer you decide to just let it be.")
+    Thread.sleep(3000)
+    println("With a couple of loud knocks on the door........")
+    // Here we want to say if you have not already decided to help the poor bum out then no one answers 
+    // you can either choose to still ignore him or if you have more clubs to visit do that first.
+    // if no clubs left to visit no one answers and you are given one more time to help the guy or 
+    // just wait x amount of time
+    // If you choose to help and you happened to give money to the bum from earlier you notice it is the 
+    // same guy.... wonder what will happen now that you helped this dude out twice.
 
-
-
-
-
-
-
-
-
-
-
-
+      clubList -= "Bub City"
+      checkedClubList += "Bub City"
+      foundItYet(inventoryList, clubList,checkedClubList)
 }
 
   def foundItYet(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
       if (checkedClubList.length == 4 ){
-          println("Why yes actually someone did turn it in. Here you are.")
+          foundIt(inventoryList)
         } else {
-          
           println("I'm quite sorry sir but I do not see it anywhere prehaps you would like to check back tonight?")
           println("Sorry sir we have not found it, but feel free to come back tonight and we can check again. Where else have you checked?")
           println(s"Yes I have checked ${checkedClubList.mkString(" & ")} so far")
@@ -702,20 +695,24 @@ object Game {
   }
 
   def drinkCoffee(inventoryList: ArrayBuffer[String]){
-    for (i <- 0 until inventoryList.length) {
-      var list = inventoryList(i)
-      if (list.contains("Coffee")){
-          val coffee = inventoryList.indexOf(list)
-          val amountOfCoffeeLeft = list.split("\\D+").mkString.toInt - 1
-          inventoryList.update(coffee, s"${amountOfCoffeeLeft} drinks of Coffee")
-          println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+    println("You take another drink of your coffee")
+      for (i <- 0 until inventoryList.length) {
+        var list = inventoryList(i)
+        if (list.contains("Coffee")){
+            val indexOfCoffee = inventoryList.indexOf(list)
+            val amountOfCoffeeLeft = list.split("\\D+").mkString.toInt - 1
+            inventoryList.update(indexOfCoffee, s"${amountOfCoffeeLeft} drinks of Coffee")
+            println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+        }
       }
-    }
   }
 
 
 
-   def yeaIfoundIt(inventoryList: ArrayBuffer[String]){
+   def foundIt(inventoryList: ArrayBuffer[String]){
+     Thread.sleep(5000)
+     println("Why yes actually someone did turn it in. Here you are.")
+     Thread.sleep(3000)
      println("After finally finding your favorite manbun holder you decide to do a happy dance.")
     Thread.sleep(2000)
     println("""
