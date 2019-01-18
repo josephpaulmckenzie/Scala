@@ -1,4 +1,3 @@
-	
 import java.util.Base64
 import java.nio.charset.StandardCharsets
 import scala.util.control.Breaks._
@@ -53,7 +52,7 @@ object Game {
         val line = getuserinput("Would you like to Play? : ").toLowerCase
         line match {
           case "yes" => startGame() ; line
-          case "no" => println("Fine be that way... Have a good day."); line
+          case "no" => exitGame("Exit"); line
           case _ => println("Please enter a valid input."); getChoice
         }
       }
@@ -70,8 +69,6 @@ object Game {
       "One Day early asf in the morning Jon is woken to two lovely dogs licking his face......")
     Thread.sleep(3000)
     println(""" 
-                 
-
                               ,.  , 
                           .-. \ \| \ 
              ,---._    _,-.> `.\ \ ( 
@@ -109,14 +106,13 @@ object Game {
         }
       }
       val wakeUporNot = getChoice
-
   }
 
   def wakeup() {
     var inventoryList = ArrayBuffer[String]()
     println("You roll out of bed ready to greet the day....")
+    Thread.sleep(3000)
     addToInventory(inventoryList,"1 iphone X")
-
     Thread.sleep(2000)
     println(
       "After giving Teecee and Coder hugs and kisses (and a few licks too ;) ) ... you make yourself a cup of coffee and go to grab the leashes")
@@ -138,6 +134,7 @@ object Game {
       println("The pups are getting antsy and .......")
       Thread.sleep(2000)
       println("You drop your coffee cup whilst reaching for the leashes")
+      Thread.sleep(3000)
       removeFromInventory(inventoryList,"4 drinks of Coffee")
       Thread.sleep(2000)
   
@@ -147,6 +144,7 @@ object Game {
           case "make" => println("You make another cup of coffee");
           addToInventory(inventoryList,"4 drinks of Coffee");
           println("With another cup of coffee ready.....");
+          Thread.sleep(3000)
           leave(inventoryList) ; line
           case "leave" => leave(inventoryList); line
           case "inventory" => showInventory(inventoryList); getChoice
@@ -180,13 +178,14 @@ object Game {
   def leave(inventoryList: ArrayBuffer[String]) {
     println(
       "You grab the leashes wrangle up the pups and lock the door behind you....")
+      Thread.sleep(3000)
       addToInventory(inventoryList,"Coder")
       addToInventory(inventoryList,"Teecee")
       addToInventory(inventoryList,"2 Leashes")
-    println("With the pups and your cup of coffee you head for the elevator")
-    Thread.sleep(3000)
-    println("Arriving at the elevator.....")
-    println("""
+      println("With the pups and your cup of coffee you head for the elevator")
+      Thread.sleep(3000)
+      println("Arriving at the elevator.....")
+      println("""
                              ______________
                             |.------------.|
                             || ____  ____ ||
@@ -211,26 +210,25 @@ object Game {
     Thread.sleep(1000)
     println("The doors open and who should be standing there?????")
     Thread.sleep(4000)
-    // Gets Random Number duh :/
     val r = new scala.util.Random
-    // Gets a a random number just fluxating between 0 and 1
-    // we can make that range anything we want
     val elevatorDoor = r.nextInt((1) + 1)
     if (elevatorDoor == 0) {
       println("No one is in the elevator")
       Thread.sleep(2000)
       println(
         "The pups bound on into the elevator slightly dragging a sleepy brit behind them")
+        Thread.sleep(3000)
       outSideOfHome(inventoryList)
     } else {
       println(
         "That mean ol neighbor who says that the greatest newfies ever bark too much")
       Thread.sleep(2000)
       println("As if !!!!")
+      Thread.sleep(3000)
       println("Jon just smiles nods and gets on the elevator ")
+      Thread.sleep(3000)
       outSideOfHome(inventoryList)
     }
-
   }
 
   def outSideOfHome(inventoryList: ArrayBuffer[String]) {
@@ -240,6 +238,7 @@ object Game {
       "You go to put your hair up with your favorite manbun holder .......")
     Thread.sleep(3000)
     println("Oh no!!!!! It's Gone")
+    Thread.sleep(4000)
     println(""" 
                             
                     ────────────────██████████
@@ -265,9 +264,12 @@ object Game {
 
     Thread.sleep(3000)
     println("The adventure starts.")
+    Thread.sleep(3000)
     println(
       "Your goal should you decide to stick to it is to find the magic manbun holder all whilst taking Teecee and Coder for a nice walk.")
+      Thread.sleep(3000)
     println("You Teecee and Coder begin your journey")
+    Thread.sleep(3000)
     println(
       """
                                  _________
@@ -311,13 +313,17 @@ object Game {
     val dropOrNot = 1 + r.nextInt((3 - 2) + 1)
     if (dropOrNot == 1) {
       println("You drop your phone.... OH NO!! ")
+      Thread.sleep(3000)
       println("Bending down to pick up your phone you notice a $20 bill.")
+      Thread.sleep(3000)
       addToInventory(inventoryList,"$20 Bill")
       println("You pick up Teecee's ..... and proceed down the road")
+      Thread.sleep(3000)
       addToInventory(inventoryList,"1 bag of teecee's love")
       trashCan(inventoryList)
     } else {
       println("Nothing out of the ordinary happens")
+      Thread.sleep(3000)
       addToInventory(inventoryList,"1 bag of teecee's love")
       trashCan(inventoryList)
     }
@@ -335,9 +341,11 @@ object Game {
         line match {
           case "yes" => removeFromInventory(inventoryList,"1 bag of teecee's love")
           println("After throwing away the poo you decide to check one of the possible places your favorite manbun holder could be.")
+          Thread.sleep(3000)
           listOfClubs(inventoryList,clubList,checkedClubList) ; line
           case "no" => println("Ok that's a little weird but ok.....")
           println("You decide that throwing the poo away can wait and head off for one of the places your favorite manbun holder could be.")
+          Thread.sleep(3000)
           listOfClubs(inventoryList, clubList,checkedClubList); line
           case "inventory" => showInventory(inventoryList); getChoice
           case _ => println("Please enter a valid input."); getChoice
@@ -381,15 +389,15 @@ object Game {
                                             <((((((\\\
                                             /      . }\
                                             ;--..--._|}
-                          (\                 '--/\--'  )
+                          (\                '--/\--'  )
                           \\                | '-'  :'|
-                            \\               . -==- .-|
+                           \\               . -==- .-|
                             \\               \.__.'   \--._
-                            [\\          __.--|       //  _/'--.
+                           \ \\          __.--|       //  _/'--.
                             \ \\       .'-._ ('-----'/ __/      \
-                              \ \\     /   __>|      | '--.       |
+                             \ \\     /   __>|      | '--.       |
                               \ \\   |   \   |     /    /       /
-                                \ '\ /     \  |     |  _/       /
+                               \ '\ /     \  |     |  _/       /
                                 \  \       \ |     | /        /
                                  \  \      \        /
             """)
@@ -400,6 +408,7 @@ object Game {
         "The security guard was having a bad day and knocks you over the head")
       Thread.sleep(2000)
       println("The pups run home and get back in bed with Amanda")
+      Thread.sleep(3000)
       removeFromInventory(inventoryList,"Coder")
       removeFromInventory(inventoryList,"Teecee")
       removeFromInventory(inventoryList,"2 Leashes")
@@ -410,7 +419,9 @@ object Game {
       println("How can I help you sir?")
       Thread.sleep(1000)
       println("Yes I have seemed to lost my favorite manbun holder. Has it been turned in by chance?")
+      Thread.sleep(3000)
       println("I don't know but let me go in look in the back and see.")
+      Thread.sleep(3000)
       clubList -= "Theory"
       checkedClubList += "Theory"
       foundItYet(inventoryList, clubList,checkedClubList)
@@ -442,6 +453,7 @@ object Game {
         println("Oh that's ok..... but I do have a card swiper on my phone.")
         Thread.sleep(2000)
         println("You *SIGH* deeply and you and the pups keep walking")
+        Thread.sleep(3000)
         drinkCoffee(inventoryList)
         arriveAtMotherHubbards(inventoryList,clubList,checkedClubList)
     }
@@ -477,6 +489,7 @@ object Game {
       """)
       Thread.sleep(2000)
       println("Excuse me sir but has anyone turned in a manbun holder? It is my most favorite one and I seem to have lost it.")
+      Thread.sleep(3000)
       clubList -= "Mother Hubbards"
       checkedClubList += "Mother Hubbards"
       foundItYet(inventoryList, clubList,checkedClubList)
@@ -488,6 +501,7 @@ object Game {
         println("You decide to check out Howl at the Moon")
         Thread.sleep(2000)
         println("Whilst walking down the sidewalk towards Howl at the moon Coder decides to be a d*** and try to run towards some unknown smell.")
+        Thread.sleep(3000)
         val r = new scala.util.Random
         val dropLeash = 1 + r.nextInt((6 - 2) + 1)
         
@@ -501,6 +515,7 @@ object Game {
                           (_/'~~      ''''(;
           """)
           println("Oh No !!! One of you leashes break. Thank goodness that teecee does her little bark and coder stops and listens to her.")
+          Thread.sleep(3000)
              val leashes = inventoryList.indexOf("2 Leashes")
                  inventoryList.update(leashes, "1 Leash")
                  Thread.sleep(2000)
@@ -514,7 +529,9 @@ object Game {
           arriveAtHowlAtTheMoon(inventoryList, clubList,checkedClubList)
         } else {
           println("Luckly you have a good grip on the 2 Leashes that you have and nothing")
+          Thread.sleep(3000)
           println("The next the thing you know Coder decides to drop a big ol pile of his love")
+          Thread.sleep(3000)
           addToInventory(inventoryList,"1 bag of Coder's love")
           arriveAtHowlAtTheMoon(inventoryList, clubList,checkedClubList)
         }
@@ -525,7 +542,9 @@ object Game {
     println("Arriving at Howl at the Moon you find......")
     if (checkedclubs <= 1 ) {
         println("The doors locked up tight and no one will answer you knock on the door :( ")
+        Thread.sleep(3000)
         println("Guess you will have to check back later")
+        Thread.sleep(3000)
         listOfClubs(inventoryList, clubList,checkedClubList)
     } else {
         
@@ -613,7 +632,9 @@ object Game {
         println("and looking for my lost manbun holder...... You do remember that it is magical right hun?")
         Thread.sleep(3000)
         println("***** DEEP SIGH *****")
+        Thread.sleep(3000)
         println("Yes Jonathan....... I know.")
+        Thread.sleep(3000)
         println("Where have you checked so far?")
         Thread.sleep(3000)
         var currentChecked = checkedClubList -= "Bub City"
@@ -666,12 +687,16 @@ object Game {
         val line = getuserinput("Will you help the poor guy out and say something to the cops?").toLowerCase
         line match {
           case "yes" => println("You decide to be cool and say something to the cops.")
-                        println(inventoryList.contains("1 Good Karma Point")
-                      
+                        Thread.sleep(3000)
+                        println(inventoryList.contains("1 Good Karma Point"))
+                        Thread.sleep(3000)
                         if (inventoryList.contains("1 Good Karma Point") == true){
                             println("Walking up to the cops you notice it is the same guy you gave that money to you found earlier.")
+                            Thread.sleep(3000)
                             println("What are the chances of that ?!?! ")
+                            Thread.sleep(3000)
                             println("You say to the cops ....Hey that is not very cool of you guys what has he done wrong?")
+                            Thread.sleep(3000)
                             if (beatdown == 1) {
                                 println("The cops tell you to mind you own business and knock you over your head")
                                 Thread.sleep(3000)
@@ -711,10 +736,14 @@ object Game {
                                 System.exit(0)
                             } else {
                                 println("The cops not wanting a problem tell you to be on your way and tell the guy to move the f***  on.")
+                                Thread.sleep(3000)
                                 print("The bum tells you thank you very much and you are back on your misson you set out for,")
+                                Thread.sleep(3000)
                                 updateKarama(inventoryList,"Karma")
                                 println("with that out of the way you knock on the door and .....")
+                                Thread.sleep(3000)
                                 println("You are greeted by a very nice fellow.")
+                                Thread.sleep(3000)
                                 println("""
                                                    ,---.
                                                 ,.'-.   \
@@ -740,8 +769,11 @@ object Game {
                                                     \  -hrr-    \ `.  |    |
                                 """)
                                 println("How can I help you sir?")
+                                Thread.sleep(3000)
                                 println("Yes I have lost my favorite manbun holder has anyone turned it in?")
+                                Thread.sleep(3000)
                                 println("I am not quite sure sir let me go take a look in the back.")
+                                Thread.sleep(3000)
                                 clubList -= "Bub City"
                                 checkedClubList += "Bub City"
                                 foundItYet(inventoryList, clubList,checkedClubList)
@@ -749,11 +781,17 @@ object Game {
 
                         } else {
                             println("You walk up to the cops and ask them what he has done wrong.")
+                            Thread.sleep(3000)
                             println("They tell you that he is wanted for questioning in a case of a missing manbun holder.")
+                            Thread.sleep(3000)
                             println("You tell the cops oh my gosh I'm missing one myself and am currently on a misson to find it.")
+                            Thread.sleep(3000)
                             println("The cops just laugh and say have a good day sir")
+                            Thread.sleep(3000)
                             println("With that out of the way you knock on the door and .....")
+                            Thread.sleep(3000)
                             println("You are greeted by a very nice fellow.")
+                            Thread.sleep(3000)
                              println("""
                                                    ,---.
                                                 ,.'-.   \
@@ -779,8 +817,11 @@ object Game {
                                                     \  -hrr-    \ `.  |    |
                                 """)
                             println("How can I help you sir?")
+                            Thread.sleep(3000)
                             println("Yes I have lost my favorite manbun holder has anyone turned it in?")
+                            Thread.sleep(3000)
                             println("I am not quite sure sir let me go take a look in the back.")
+                            Thread.sleep(3000)
                             clubList -= "Bub City"
                             checkedClubList += "Bub City"
                             foundItYet(inventoryList, clubList,checkedClubList)
@@ -818,8 +859,11 @@ object Game {
                                                     \  -hrr-    \ `.  |    |
                                 """)
                             println("How can I help you sir?")
+                            Thread.sleep(3000)
                             println("Yes I have lost my favorite manbun holder has anyone turned it in?")
+                            Thread.sleep(3000)
                             println("I am not quite sure sir, I do not believe so but let me go take a look in the back.")
+                            Thread.sleep(3000)
                             clubList -= "Bub City"
                             checkedClubList += "Bub City"
                             foundItYet(inventoryList, clubList,checkedClubList)
@@ -829,21 +873,7 @@ object Game {
           case _ => println("Please enter a valid input."); getChoice
         }
     }
-        val helpBum = getChoice
-
-        Thread.sleep(3000)
-    
-    
-    // Here we want to say if you have not already decided to help the poor bum out then no one answers 
-    // you can either choose to still ignore him or if you have more clubs to visit do that first.
-    // if no clubs left to visit no one answers and you are given one more time to help the guy or 
-    // just wait x amount of time
-    // If you choose to help and you happened to give money to the bum from earlier you notice it is the 
-    // same guy.... wonder what will happen now that you helped this dude out twice.
-
-      // clubList -= "Bub City"
-      // checkedClubList += "Bub City"
-      // foundItYet(inventoryList, clubList,checkedClubList)
+      val helpBum = getChoice
 }
 
   def foundItYet(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
@@ -851,7 +881,9 @@ object Game {
           foundIt(inventoryList)
         } else {
           println("Sorry sir we have not found it, but feel free to come back tonight and we can check again. Where else have you checked?")
+          Thread.sleep(3000)
           println(s"Yes I have checked ${checkedClubList.mkString(" & ")} so far")
+          Thread.sleep(3000)
           println("Thank you for looking and have a nice day.")
           listOfClubs(inventoryList, clubList,checkedClubList)
         }
@@ -900,7 +932,6 @@ object Game {
 
   }
 
-
    def foundIt(inventoryList: ArrayBuffer[String]){
      Thread.sleep(5000)
      println("Why yes actually someone did turn it in. Here you are.")
@@ -923,8 +954,29 @@ object Game {
    def backHome(inventoryList: ArrayBuffer[String]){
      println("You decide to go home now that you have finally located the most special of mamnbun holders you have ever have.")
      Thread.sleep(3000)
-     println("Whilst walkling ")
-     System.exit(0)
+     println("Whilst walkling back home you are almost hit by a car. ")
+     for (i <- 0 until inventoryList.length) {
+        var list = inventoryList(i)
+        if (list.contains("Karma")){
+            val indexOfInventoryItem = inventoryList.indexOf(list)
+            println("Out of nowhere the Bum that you helped out earlier pushes you and the pups out of the way saving your lifes or atleast from being hurt.")
+            Thread.sleep(3000)           
+        } else {
+          println("Thankfully it was a narrow miss and everyone is ok, apart from being a little shaken up.")
+          Thread.sleep(3000)
+        }
+      }
+    println("Finally arriving back at home you proceed to tell Amanda all about your adventure")
+    Thread.sleep(3000)
+    println("Wow she says well I'm super glad that you finally found it.")
+    Thread.sleep(3000)
+    println("You made it home with the follwoing inventory left")
+    Thread.sleep(3000)
+    println("Current Inventory " + EOL + inventoryList.mkString(EOL))
    }
 
+    def exitGame(exitTheGame: String){
+      println("Fine Be That way")
+      System.exit(0)
+    }
 }
