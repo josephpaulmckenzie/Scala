@@ -4,32 +4,27 @@ import scala.util.control.Breaks._
 import scala.collection.mutable.ArrayBuffer
 import scala.compat.Platform.EOL
 // We can rename our imports with something like below. That is pretty cool imo.
-// import System.out.{println=>printItMan}
-// It is easier to type and what to remember to type for user input if we rename 
-// the command scala.io.StdIn.readLine (Which gets user input)
-// to something a lot easier like getuserinput
+// Renaming them gives us some pretty cool abilities like renaming system prompts and the likes
+// We dont actually need to import system readline unless we wanna rename the default prompt
 import scala.io.StdIn.{readLine=>getuserinput}
-// getuserinput
 
-// import Home.Home
 object Game {
   def main(args: Array[String]) {
-
-  println("You must be Authorized to play this game.")
-  println("Please enter your username")
-  var username = getuserinput("Username: ")
-  println("Please enter your password")
-  val password = getuserinput("Password: ")
-  var encryptedUsername =
-   Base64.getEncoder().encodeToString(username.getBytes())
-  var encryptedPassword =
-   Base64.getEncoder().encodeToString(password.getBytes())
-  if (encryptedUsername == "TWFydmlu" && encryptedPassword == "U3Vja3M=") {
-   authorized()
-  } else {
-   noGettingIn()
+    println("You must be Authorized to play this game.")
+    println("Please enter your username")
+    var username = getuserinput("Username: ")
+    println("Please enter your password")
+    val password = getuserinput("Password: ")
+    var encryptedUsername =
+    Base64.getEncoder().encodeToString(username.getBytes())
+    var encryptedPassword =
+    Base64.getEncoder().encodeToString(password.getBytes())
+    if (encryptedUsername == "TWFydmlu" && encryptedPassword == "U3Vja3M=") {
+    authorized()
+    } else {
+    noGettingIn()
+    }
   }
- }
 
   def authorized() {
     println("You have been authorized to play this game.")
@@ -58,10 +53,10 @@ object Game {
       }
         val playornot = getChoice
     }
-  }
+ }
 
   def noGettingIn() {
-    println("Sorry you are not playing today buddy.")
+      println("Sorry you are not playing today buddy.")
   }
 
   def startGame() {
@@ -92,7 +87,7 @@ object Game {
       -woof-        /  '   ,'    /-.|        `.   ;   `. 
                   (      /`----'   |          `--'     ` 
                    `.__,' 
-                 """)
+    """)
 
     println("He knows what they want...")
     Thread.sleep(4000)
@@ -104,7 +99,7 @@ object Game {
           case "sleep" => sleep(); line
           case _ => println("Please enter a valid input."); getChoice
         }
-      }
+    }
       val wakeUporNot = getChoice
   }
 
@@ -114,8 +109,7 @@ object Game {
     Thread.sleep(3000)
     addToInventory(inventoryList,"1 iphone X")
     Thread.sleep(2000)
-    println(
-      "After giving Teecee and Coder hugs and kisses (and a few licks too ;) ) ... you make yourself a cup of coffee and go to grab the leashes")
+    println("After giving Teecee and Coder hugs and kisses (and a few licks too ;) ) ... you make yourself a cup of coffee and go to grab the leashes")
 
     println("""
                     ╭╯╭╯╭╯
@@ -172,7 +166,7 @@ object Game {
                 \____  ___  \  |
                     ||   \ |\ |
                     _||   _||_||
-                """)
+              """)
   }
 
   def leave(inventoryList: ArrayBuffer[String]) {
@@ -215,13 +209,11 @@ object Game {
     if (elevatorDoor == 0) {
       println("No one is in the elevator")
       Thread.sleep(2000)
-      println(
-        "The pups bound on into the elevator slightly dragging a sleepy brit behind them")
-        Thread.sleep(3000)
+      println("The pups bound on into the elevator slightly dragging a sleepy brit behind them")
+      Thread.sleep(3000)
       outSideOfHome(inventoryList)
     } else {
-      println(
-        "That mean ol neighbor who says that the greatest newfies ever bark too much")
+      println("That mean ol neighbor who says that the greatest newfies ever bark too much")
       Thread.sleep(2000)
       println("As if !!!!")
       Thread.sleep(3000)
@@ -234,8 +226,7 @@ object Game {
   def outSideOfHome(inventoryList: ArrayBuffer[String]) {
     println("Arriving outside........")
     Thread.sleep(4000)
-    println(
-      "You go to put your hair up with your favorite manbun holder .......")
+    println("You go to put your hair up with your favorite manbun holder .......")
     Thread.sleep(3000)
     println("Oh no!!!!! It's Gone")
     Thread.sleep(4000)
@@ -265,8 +256,7 @@ object Game {
     Thread.sleep(3000)
     println("The adventure starts.")
     Thread.sleep(3000)
-    println(
-      "Your goal should you decide to stick to it is to find the magic manbun holder all whilst taking Teecee and Coder for a nice walk.")
+    println("Your goal should you decide to stick to it is to find the magic manbun holder all whilst taking Teecee and Coder for a nice walk.")
       Thread.sleep(3000)
     println("You Teecee and Coder begin your journey")
     Thread.sleep(3000)
@@ -350,7 +340,7 @@ object Game {
           case "inventory" => showInventory(inventoryList); getChoice
           case _ => println("Please enter a valid input."); getChoice
         }
-      }
+    }
         val throwPoopAway = getChoice
   }
 
@@ -358,7 +348,7 @@ object Game {
                   clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
     println("Where would you like to check?")
     for (i <- 0 until clubList.length) {
-      println(s"${clubList(i)}")
+        println(s"${clubList(i)}")
     }
 
   def getChoice: String = {
@@ -389,7 +379,7 @@ object Game {
                                             <((((((\\\
                                             /      . }\
                                             ;--..--._|}
-                          (\                '--/\--'  )
+                         (\                '--/\--'  )
                           \\                | '-'  :'|
                            \\               . -==- .-|
                             \\               \.__.'   \--._
@@ -398,8 +388,8 @@ object Game {
                              \ \\     /   __>|      | '--.       |
                               \ \\   |   \   |     /    /       /
                                \ '\ /     \  |     |  _/       /
-                                \  \       \ |     | /        /
-                                 \  \      \        /
+                                \  \       \ |     |  /       /
+                                 \  \       \        /
             """)
     val r = new scala.util.Random
     val niceOrMean = 1 + r.nextInt((20 - 2) + 1)
@@ -494,7 +484,7 @@ object Game {
       checkedClubList += "Mother Hubbards"
       foundItYet(inventoryList, clubList,checkedClubList)
 
-      }
+    }
 
       def leaveForHowlAtTheMoon(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
 
@@ -505,15 +495,15 @@ object Game {
         val r = new scala.util.Random
         val dropLeash = 1 + r.nextInt((6 - 2) + 1)
         
-          if (inventoryList.contains("2 Leashes")) {
-            if (dropLeash == 1 ) {
-          println("""
+        if (inventoryList.contains("2 Leashes")) {
+          if (dropLeash == 1 ) {
+                println("""
                                       .--~~,__
                           :-....,-------`~~'._.'
                           `-,,,  ,_      ;'~U'
                             _,-' ,'`-__; '--.
                           (_/'~~      ''''(;
-          """)
+                """)
           println("Oh No !!! One of you leashes break. Thank goodness that teecee does her little bark and coder stops and listens to her.")
           Thread.sleep(3000)
              val leashes = inventoryList.indexOf("2 Leashes")
@@ -966,13 +956,17 @@ object Game {
           Thread.sleep(3000)
         }
       }
-    println("Finally arriving back at home you proceed to tell Amanda all about your adventure")
+    println("Finally arriving back at home you proceed to tell Amanda all about your adventures")
     Thread.sleep(3000)
     println("Wow she says well I'm super glad that you finally found it.")
     Thread.sleep(3000)
-    println("You made it home with the follwoing inventory left")
+    println("You made it home with the following inventory left")
     Thread.sleep(3000)
     println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+    Thread.sleep(3000)
+    println("To find more about the magical manbun holder ask Jon...... He will be happy to tell you all about it. ")
+    Thread.sleep(3000)
+    println("Please Join us in our next adventure (Or check back for updates to which we will see some of the magical properties that it has)........")
    }
 
     def exitGame(exitTheGame: String){
