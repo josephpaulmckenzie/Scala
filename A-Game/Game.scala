@@ -429,7 +429,7 @@ object Game {
         val giveMoney = getuserinput
         if (giveMoney == "yes") {
             removeFromInventory(inventoryList,"$20 Bill")
-            addToInventory(inventoryList,"Good Karma")
+            addToInventory(inventoryList,"1 Good Karma Point")
             arriveAtMotherHubbards(inventoryList,clubList,checkedClubList)
         } else {
             println("You just keep walking and ignore them")
@@ -666,8 +666,9 @@ object Game {
         val line = getuserinput("Will you help the poor guy out and say something to the cops?").toLowerCase
         line match {
           case "yes" => println("You decide to be cool and say something to the cops.")
-
-                        if (inventoryList.contains("Good Karma") == true){
+                        println(inventoryList.contains("1 Good Karma Point")
+                      
+                        if (inventoryList.contains("1 Good Karma Point") == true){
                             println("Walking up to the cops you notice it is the same guy you gave that money to you found earlier.")
                             println("What are the chances of that ?!?! ")
                             println("You say to the cops ....Hey that is not very cool of you guys what has he done wrong?")
@@ -711,6 +712,7 @@ object Game {
                             } else {
                                 println("The cops not wanting a problem tell you to be on your way and tell the guy to move the f***  on.")
                                 print("The bum tells you thank you very much and you are back on your misson you set out for,")
+                                updateKarama(inventoryList,"Karma")
                                 println("with that out of the way you knock on the door and .....")
                                 println("You are greeted by a very nice fellow.")
                                 println("""
@@ -881,6 +883,18 @@ object Game {
       // println("Current Inventory " + EOL + inventoryList.mkString(EOL))
   }
 
+  def updateKarama(inventoryList: ArrayBuffer[String],inventoryItem: String){
+    for (i <- 0 until inventoryList.length) {
+        var list = inventoryList(i)
+        if (list.contains(inventoryItem)){
+            val indexOfInventoryItem = inventoryList.indexOf(list)
+            val karmaPoints = list.split("\\D+").mkString.toInt + 1
+            inventoryList.update(indexOfInventoryItem, s"${karmaPoints} Karma Points")
+            println(s"*** You added 1 ${inventoryItem} to your inventory ***")
+        }
+      }
+  }
+
   def showInventory(inventoryList: ArrayBuffer[String]){
        println("Current Inventory " + EOL + inventoryList.mkString(EOL))
 
@@ -907,7 +921,9 @@ object Game {
    }
 
    def backHome(inventoryList: ArrayBuffer[String]){
-     println("BACK HOME")
+     println("You decide to go home now that you have finally located the most special of mamnbun holders you have ever have.")
+     Thread.sleep(3000)
+     println("Whilst walkling ")
      System.exit(0)
    }
 
