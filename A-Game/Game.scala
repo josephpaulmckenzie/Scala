@@ -1,29 +1,36 @@
+	
 import java.util.Base64
 import java.nio.charset.StandardCharsets
 import scala.util.control.Breaks._
 import scala.collection.mutable.ArrayBuffer
 import scala.compat.Platform.EOL
+// We can rename our imports with something like below. That is pretty cool imo.
+// import System.out.{println=>printItMan}
+// It is easier to type and what to remember to type for user input if we rename 
+// the command scala.io.StdIn.readLine (Which gets user input)
+// to something a lot easier like getuserinput
+import scala.io.StdIn.{readLine=>getuserinput}
+// getuserinput
 
 // import Home.Home
 object Game {
   def main(args: Array[String]) {
-    //   println(new Home home)
 
-    println("You must be Authorized to play this game.")
-    println("Please enter your username")
-    var username = scala.io.StdIn.readLine("Username: ")
-    println("Please enter your password")
-    val password = scala.io.StdIn.readLine("Password: ")
-    var encryptedUsername =
-      Base64.getEncoder().encodeToString(username.getBytes())
-    var encryptedPassword =
-      Base64.getEncoder().encodeToString(password.getBytes())
-    if (encryptedUsername == "TWFydmlu" && encryptedPassword == "U3Vja3M=") {
-      authorized()
-    } else {
-      noGettingIn()
-    }
+  println("You must be Authorized to play this game.")
+  println("Please enter your username")
+  var username = getuserinput("Username: ")
+  println("Please enter your password")
+  val password = getuserinput("Password: ")
+  var encryptedUsername =
+   Base64.getEncoder().encodeToString(username.getBytes())
+  var encryptedPassword =
+   Base64.getEncoder().encodeToString(password.getBytes())
+  if (encryptedUsername == "TWFydmlu" && encryptedPassword == "U3Vja3M=") {
+   authorized()
+  } else {
+   noGettingIn()
   }
+ }
 
   def authorized() {
     println("You have been authorized to play this game.")
@@ -40,21 +47,17 @@ object Game {
     Thread.sleep(3000)
     var status = false
     while (status == false) {
+      
 
-      println("Would you like to play?")
-      var playornot = scala.io.StdIn.readLine()
-
-      if (playornot == "yes") {
-        var status = true
-
-        startGame()
-        System.exit(0)
-
-      } else if (playornot == "no") {
-        var status = true
-        println("Fine be that way... Have a good day.")
-        System.exit(0)
+      def getChoice: String = {
+        val line = getuserinput("Would you like to Play? : ").toLowerCase
+        line match {
+          case "yes" => startGame() ; line
+          case "no" => println("Fine be that way... Have a good day."); line
+          case _ => println("Please enter a valid input."); getChoice
+        }
       }
+        val playornot = getChoice
     }
   }
 
@@ -96,15 +99,16 @@ object Game {
 
     println("He knows what they want...")
     Thread.sleep(4000)
-    println(
-      "Do you go back to 'sleep' or 'wake up' and take the little buggers out?")
-    var wakeUp = scala.io.StdIn.readLine()
-
-    if (wakeUp == "wake up") {
-      wakeup()
-    } else {
-      sleep()
-    }
+    
+    def getChoice: String = {
+        val line = getuserinput("Do you go back to 'sleep' or 'wake up' and take the little buggers out? : ").toLowerCase
+        line match {
+          case "wake up" => wakeup() ; line
+          case "sleep" => sleep(); line
+          case _ => println("Please enter a valid input."); getChoice
+        }
+      }
+      val wakeUporNot = getChoice
 
   }
 
@@ -136,19 +140,20 @@ object Game {
       println("You drop your coffee cup whilst reaching for the leashes")
       removeFromInventory(inventoryList,"4 drinks of Coffee")
       Thread.sleep(2000)
-      println(
-        "Would you like to 'make' another cup of coffee or just 'leave' now?")
-      val coffee = scala.io.StdIn.readLine()
-      if (coffee == "make") {
-        println("You make another cup of coffee")
-        println("*** You added 4 drinks of Coffee to your inventory ***")
-        inventoryList += "4 drinks of Coffee"
-        println("Current Inventory " + EOL + inventoryList.mkString(EOL))
-        println("With another cup of coffee ready.....")
-        leave(inventoryList)
-      } else if (coffee == "leave") {
-        leave(inventoryList)
+  
+      def getChoice: String = {
+        val line = getuserinput("Would you like to 'make' another cup of coffee or just 'leave' now> : ").toLowerCase
+        line match {
+          case "make" => println("You make another cup of coffee");
+          addToInventory(inventoryList,"4 drinks of Coffee");
+          println("With another cup of coffee ready.....");
+          leave(inventoryList) ; line
+          case "leave" => leave(inventoryList); line
+          case "inventory" => showInventory(inventoryList); getChoice
+          case _ => println("Please enter a valid input."); getChoice
+        }
       }
+        val makeMorecoffee = getChoice
     } else {
       leave(inventoryList)
     }
@@ -175,10 +180,9 @@ object Game {
   def leave(inventoryList: ArrayBuffer[String]) {
     println(
       "You grab the leashes wrangle up the pups and lock the door behind you....")
-    inventoryList += "Coder"
-    inventoryList += "Teecee"
-    inventoryList += "2 Leashes"
-    println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+      addToInventory(inventoryList,"Coder")
+      addToInventory(inventoryList,"Teecee")
+      addToInventory(inventoryList,"2 Leashes")
     println("With the pups and your cup of coffee you head for the elevator")
     Thread.sleep(3000)
     println("Arriving at the elevator.....")
@@ -207,7 +211,10 @@ object Game {
     Thread.sleep(1000)
     println("The doors open and who should be standing there?????")
     Thread.sleep(4000)
+    // Gets Random Number duh :/
     val r = new scala.util.Random
+    // Gets a a random number just fluxating between 0 and 1
+    // we can make that range anything we want
     val elevatorDoor = r.nextInt((1) + 1)
     if (elevatorDoor == 0) {
       println("No one is in the elevator")
@@ -305,23 +312,15 @@ object Game {
     if (dropOrNot == 1) {
       println("You drop your phone.... OH NO!! ")
       println("Bending down to pick up your phone you notice a $20 bill.")
-      inventoryList += "$20 Bill"
-      println("You added a $20 bill to you inventory")
+      addToInventory(inventoryList,"$20 Bill")
       println("You pick up Teecee's ..... and proceed down the road")
-      inventoryList += "1 bag of teecee's love"
-      println("You added 1 bag of teecee's love")
-      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+      addToInventory(inventoryList,"1 bag of teecee's love")
       trashCan(inventoryList)
     } else {
       println("Nothing out of the ordinary happens")
-      println(
-        "You pick up teecee's leavings all whilst wrestling with a playful Coder.")
-      inventoryList += "1 bag of teecee's love"
-      println("You added 1 bag of teecee's love")
-      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+      addToInventory(inventoryList,"1 bag of teecee's love")
       trashCan(inventoryList)
     }
-
   }
 
   def trashCan(inventoryList: ArrayBuffer[String]) {
@@ -330,21 +329,21 @@ object Game {
                                        "Howl at the Moon",
                                        "Bub City")
     var checkedClubList = ArrayBuffer[String]()
-    println("You pass a trash can. Would you like to throw Teecee's droppings away?")
-    val throwAway = scala.io.StdIn.readLine()
-    if (throwAway == "yes") {
-      inventoryList -= "1 bag of teecee love"
-      println("You throw away Teecee's droppings")
-      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
-      println(
-        "After throwing away the poo you decide to check one of the possible places your favorite manbun holder could be.")
-      listOfClubs(inventoryList, clubList,checkedClubList)
-    } else {
-      println("Ok that's a little weird but ok.....")
-      println(
-        "You decide that throwing the poo away can wait and head off for one of the places your favorite manbun holder could be.")
-      listOfClubs(inventoryList, clubList,checkedClubList)
-    }
+    
+    def getChoice: String = {
+        val line = getuserinput("You pass a trash can. Would you like to throw Teecee's droppings away? (Yes/No) : ").toLowerCase
+        line match {
+          case "yes" => removeFromInventory(inventoryList,"1 bag of teecee's love")
+          println("After throwing away the poo you decide to check one of the possible places your favorite manbun holder could be.")
+          listOfClubs(inventoryList,clubList,checkedClubList) ; line
+          case "no" => println("Ok that's a little weird but ok.....")
+          println("You decide that throwing the poo away can wait and head off for one of the places your favorite manbun holder could be.")
+          listOfClubs(inventoryList, clubList,checkedClubList); line
+          case "inventory" => showInventory(inventoryList); getChoice
+          case _ => println("Please enter a valid input."); getChoice
+        }
+      }
+        val throwPoopAway = getChoice
   }
 
   def listOfClubs(inventoryList: ArrayBuffer[String],
@@ -354,20 +353,20 @@ object Game {
       println(s"${clubList(i)}")
     }
 
-    val club = scala.io.StdIn.readLine()
-    if (club == "Theory") {
-      goToTheory(inventoryList, clubList,checkedClubList)
-    } else if (club == "Mother Hubbards") {
-      leaveForMotherHubbards(inventoryList, clubList,checkedClubList)
-    } else if (club == "Howl at the Moon"){
-      leaveForHowlAtTheMoon(inventoryList, clubList,checkedClubList)
-    } else if (club == "Bub City") {
-      leaveForBubCity(inventoryList, clubList,checkedClubList)
-    } else {
-      println("Please enter a vaild choice: ")
-      listOfClubs(inventoryList, clubList,checkedClubList)
-    
+  def getChoice: String = {
+      val line = getuserinput.toLowerCase
+      line match {
+        case "theory" => goToTheory(inventoryList, clubList,checkedClubList); line
+        case "mother hubbards" => leaveForMotherHubbards(inventoryList, clubList,checkedClubList);line
+        case "howl at the moon" => leaveForHowlAtTheMoon(inventoryList, clubList,checkedClubList); line
+        case "bub city" => leaveForBubCity(inventoryList, clubList,checkedClubList); line
+        case "inventory" => showInventory(inventoryList); getChoice
+        case _ => println("Please enter a valid input."); getChoice
+      }
     }
+      val chooseClub = getChoice
+
+
   }
 
   def goToTheory(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
@@ -378,25 +377,21 @@ object Game {
       "Arriving at Theory you find the doors locked but after some pleading and knocking on the door a security guard anaswers and says....")
     Thread.sleep(2000)
     println("""
-                                  ________________
-                                  \      __      /         __
-                                   \_____()_____/         /  )
-                                   '============`        /  /
-                                    #---\  /---#        /  /
-                                   (# @\| |/@  #)      /  /
-                                    \   (_)   /       /  /
-                                    |\ '---` /|      /  /
-                            _______/ \\_____// \____/ o_|
-                            /       \  /     \  /   / o_|
-                            / |           o|        / o_| \
-                            /  |  _____     |       / /   \ \
-                            /   |  |===|    o|      / /\    \ \
-                            |    |   \@/      |     / /  \    \ \
-                            |    |___________o|__/----)   \    \/
-                            |    '              ||  --)    \     |
-                            |___________________||  --)     \    /
-                                    |           o|   ''''   |   \__/
-                                    |            |          |
+                                              ______
+                                            <((((((\\\
+                                            /      . }\
+                                            ;--..--._|}
+                          (\                 '--/\--'  )
+                          \\                | '-'  :'|
+                            \\               . -==- .-|
+                            \\               \.__.'   \--._
+                            [\\          __.--|       //  _/'--.
+                            \ \\       .'-._ ('-----'/ __/      \
+                              \ \\     /   __>|      | '--.       |
+                              \ \\   |   \   |     /    /       /
+                                \ '\ /     \  |     |  _/       /
+                                \  \       \ |     | /        /
+                                 \  \      \        /
             """)
     val r = new scala.util.Random
     val niceOrMean = 1 + r.nextInt((20 - 2) + 1)
@@ -405,10 +400,9 @@ object Game {
         "The security guard was having a bad day and knocks you over the head")
       Thread.sleep(2000)
       println("The pups run home and get back in bed with Amanda")
-      inventoryList -= "Coder"
-      inventoryList -= "Teecee"
-      inventoryList -= "2 Leashes"
-      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+      removeFromInventory(inventoryList,"Coder")
+      removeFromInventory(inventoryList,"Teecee")
+      removeFromInventory(inventoryList,"2 Leashes")
       println("Game Over")
       println("Sorry you lost :( ")
       System.exit(0)
@@ -416,6 +410,7 @@ object Game {
       println("How can I help you sir?")
       Thread.sleep(1000)
       println("Yes I have seemed to lost my favorite manbun holder. Has it been turned in by chance?")
+      println("I don't know but let me go in look in the back and see.")
       clubList -= "Theory"
       checkedClubList += "Theory"
       foundItYet(inventoryList, clubList,checkedClubList)
@@ -431,11 +426,10 @@ object Game {
     val money = inventoryList contains "$20 Bill"
     if (money == true) {
         println("Do you give them any?")
-        val giveMoney = scala.io.StdIn.readLine()
+        val giveMoney = getuserinput
         if (giveMoney == "yes") {
-            inventoryList -= "$20 Bill"
-            println("You removed a $20 bill from your inventory")
-            println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+            removeFromInventory(inventoryList,"$20 Bill")
+            addToInventory(inventoryList,"Good Karma")
             arriveAtMotherHubbards(inventoryList,clubList,checkedClubList)
         } else {
             println("You just keep walking and ignore them")
@@ -448,9 +442,7 @@ object Game {
         println("Oh that's ok..... but I do have a card swiper on my phone.")
         Thread.sleep(2000)
         println("You *SIGH* deeply and you and the pups keep walking")
-       
         drinkCoffee(inventoryList)
-        println("Current Inventory " + EOL + inventoryList.mkString(EOL))
         arriveAtMotherHubbards(inventoryList,clubList,checkedClubList)
     }
   }
@@ -463,14 +455,14 @@ object Game {
                                 /''''''
                                 |  (')')     
                                 C     _)  \_///
-                                  \   _|   \ _/
+                                 \   _|   \ _/
                                   \__/___/ /
                                   <___Y> \_/        
-                                /  \ :\__\        
+                                 /  \ :\__\        
                                 /   | :| 
                                 |___| :|
-                                | |  :|
-                                \ \  :|
+                                 | |  :|
+                                 \ \  :|
                                   \ \=LI
                                   /// ||
                                   |   ||
@@ -500,7 +492,7 @@ object Game {
         val dropLeash = 1 + r.nextInt((6 - 2) + 1)
         
           if (inventoryList.contains("2 Leashes")) {
-            if (1 == 1 ) {
+            if (dropLeash == 1 ) {
           println("""
                                       .--~~,__
                           :-....,-------`~~'._.'
@@ -517,15 +509,13 @@ object Game {
           }
           if (!inventoryList.contains("1 bag of Coder's love")) {
               println("The next the thing you know Coder decides to drop a big ol pile of his love")
-              inventoryList += "1 bag of Coder's love"
-              println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+              addToInventory(inventoryList,"1 bag of Coder's love")
           }
           arriveAtHowlAtTheMoon(inventoryList, clubList,checkedClubList)
         } else {
           println("Luckly you have a good grip on the 2 Leashes that you have and nothing")
           println("The next the thing you know Coder decides to drop a big ol pile of his love")
-          inventoryList += "1 bag of Coder's love"
-          println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+          addToInventory(inventoryList,"1 bag of Coder's love")
           arriveAtHowlAtTheMoon(inventoryList, clubList,checkedClubList)
         }
       }
@@ -547,7 +537,7 @@ object Game {
                             |   <   |
                             |  ___  |
                              \_____/
-                          ____|  |____
+                           ____|  |____
                           /    \__/    \
                         /              \
                         /\_/|        |\_/\
@@ -609,29 +599,38 @@ object Game {
      """)
      println("It's the wife calling , will you answer the phone?")
      Thread.sleep(4000)
-     val answerPhone = scala.io.StdIn.readLine()
-     if (answerPhone == "yes"){
-       println("Hey wifey what's up?")
-       Thread.sleep(2000)
-       println("What are you doing?")
-       Thread.sleep(2000)
-       println("Oh not much just taking the pups for a walk.......")
-       Thread.sleep(6000)
-       println("and looking for my lost manbun holder...... You do remember that it is magical right hun?")
-       Thread.sleep(3000)
-       println("***** DEEP SIGH *****")
-       println("Yes Jonathan....... I know.")
-       println("Where have you checked so far?")
-       Thread.sleep(3000)
-       var currentChecked = checkedClubList -= "Bub City"
-       if (currentChecked.length == 0) {
-            var checkedSoFar = "nowhere"
-            println(s"So far I have checked ${checkedSoFar} and I am on the way to Bub City")
-       } else {
-            var checkedSoFar = checkedClubList.mkString("&")
-            println(s"So far I have checked ${checkedSoFar} and I am on the way to Bub City")
-       }
-     }
+
+    def getChoice: String = {
+      val line = getuserinput.toLowerCase
+      line match {
+        case "yes" =>
+        println("Hey wifey what's up?")
+        Thread.sleep(2000)
+        println("What are you doing?")
+        Thread.sleep(2000)
+        println("Oh not much just taking the pups for a walk.......")
+        Thread.sleep(6000)
+        println("and looking for my lost manbun holder...... You do remember that it is magical right hun?")
+        Thread.sleep(3000)
+        println("***** DEEP SIGH *****")
+        println("Yes Jonathan....... I know.")
+        println("Where have you checked so far?")
+        Thread.sleep(3000)
+        var currentChecked = checkedClubList -= "Bub City"
+        if (currentChecked.length == 0) {
+              var checkedSoFar = "nowhere"
+              println(s"So far I have checked ${checkedSoFar} and I am on the way to Bub City")
+        } else {
+              var checkedSoFar = checkedClubList.mkString("&")
+              println(s"So far I have checked ${checkedSoFar} and I am on the way to Bub City")
+        } ; line
+        case "no" => println("Uh oh! You know what happens when you don't answer the phone man."); line
+        case "inventory" => showInventory(inventoryList); getChoice
+        case _ => println("Please enter a valid input."); getChoice
+      }
+    }
+      val chooseClub = getChoice
+
      arriveAtBubCity(inventoryList, clubList,checkedClubList)
    }
 
@@ -649,7 +648,7 @@ object Game {
                 | | /    |            |  |            |  |            |
                 | |/  /  |            |  |            |  |            |
                 |_| |/|  |            |  |            |  |            |
-               (===)| |  |  C  D  P   |  |  C  D  P   |  |  C  D  P   |
+               (===)| |  |  C  P  D   |  |  C  P  D   |  |  C  P  D   |
                `==='  |`-|            |`-|            |`-|            |
                 | |   |`-|            |`-|            |`-|            |
                 |_|   |  |            |  |            |  |            |
@@ -658,12 +657,181 @@ object Game {
                       |`-|            |`-|            |`-|            |
                       |__|            |__|            |__|            |
                       /_ |            |_ |            |_ |            |
-                    |___`-__________-'__`-__________-'__`-__________-'
+                     |___`-__________-'__`-__________-'__`-__________-'
     """)
     Thread.sleep(2000)
-    println("Not wanting to put off finding your favortite manbun holder any longer you decide to just let it be.")
-    Thread.sleep(3000)
-    println("With a couple of loud knocks on the door........")
+    val r = new scala.util.Random
+        val beatdown = 1 + r.nextInt((12 - 2) + 1)
+    def getChoice: String = {
+        val line = getuserinput("Will you help the poor guy out and say something to the cops?").toLowerCase
+        line match {
+          case "yes" => println("You decide to be cool and say something to the cops.")
+
+                        if (inventoryList.contains("Good Karma") == true){
+                            println("Walking up to the cops you notice it is the same guy you gave that money to you found earlier.")
+                            println("What are the chances of that ?!?! ")
+                            println("You say to the cops ....Hey that is not very cool of you guys what has he done wrong?")
+                            if (beatdown == 1) {
+                                println("The cops tell you to mind you own business and knock you over your head")
+                                Thread.sleep(3000)
+                                println("""
+                                                 ________________
+                                                 \      __      /         __
+                                                  \_____()_____/         /  )
+                                                  '============`        /  /
+                                                   #---\  /---#        /  /
+                                                  (# @\| |/@  #)      /  /
+                                                   \   (_)   /       /  /
+                                                   |\ '---` /|      /  /
+                                           _______/ \\_____// \____/ o_|
+                                          /       \  /     \  /   / o_|
+                                         / |           o|        / o_| \
+                                        /  |  _____     |       / /   \ \
+                                       /   |  |===|    o|      / /\    \ \
+                                      |    |   \@/      |     / /  \    \ \
+                                      |    |___________o|__/----)   \    \/
+                                      |    '              ||  --)    \     |
+                                      |___________________||  --)     \    /
+                                            |           o|   ''''   |   \__/
+                                            |            |          |
+
+                                """)
+                                println("You get knocked out drop the leashes and the pups run back home to Amanda ")
+                                for (i <- 0 until inventoryList.length) {
+                                    var list = inventoryList(i)
+                                    if (list.contains("Leashes")){
+                                        val indexOfLeashes = inventoryList.indexOf(list)
+                                        removeFromInventory(inventoryList,inventoryList(i))
+                                        removeFromInventory(inventoryList,"Coder")
+                                        removeFromInventory(inventoryList,"Teecee")
+                                        // println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+                                    }
+                                  }
+                                System.exit(0)
+                            } else {
+                                println("The cops not wanting a problem tell you to be on your way and tell the guy to move the f***  on.")
+                                print("The bum tells you thank you very much and you are back on your misson you set out for,")
+                                println("with that out of the way you knock on the door and .....")
+                                println("You are greeted by a very nice fellow.")
+                                println("""
+                                                   ,---.
+                                                ,.'-.   \
+                                                ( ( ,'\"\"\"\"\"-.
+                                                `,X          `.
+                                                /` `           `._
+                                              (            ,   ,_\
+                                              |          ,---.,'o `.
+                                              |         / o   \     )
+                                                \ ,.    (      .____,
+                                                \| \    \____,'     \
+                                              '`'\  \        _,____,'
+                                              \  ,--      ,-'     \
+                                                ( C     ,'         \
+                                                  `--'  .'           |
+                                                    |   |         .O |
+                                                  __|    \        ,-'_
+                                                / `L     `._  _,'  ' `.
+                                                /    `--.._  `',.   _\  `
+                                                `-.       /\  | `. ( ,\  \
+                                              _/  `-._  /  \ |--'  (     \
+                                              '  `-.   `'    \/\`.   `.    )
+                                                    \  -hrr-    \ `.  |    |
+                                """)
+                                println("How can I help you sir?")
+                                println("Yes I have lost my favorite manbun holder has anyone turned it in?")
+                                println("I am not quite sure sir let me go take a look in the back.")
+                                clubList -= "Bub City"
+                                checkedClubList += "Bub City"
+                                foundItYet(inventoryList, clubList,checkedClubList)
+                            }
+
+                        } else {
+                            println("You walk up to the cops and ask them what he has done wrong.")
+                            println("They tell you that he is wanted for questioning in a case of a missing manbun holder.")
+                            println("You tell the cops oh my gosh I'm missing one myself and am currently on a misson to find it.")
+                            println("The cops just laugh and say have a good day sir")
+                            println("With that out of the way you knock on the door and .....")
+                            println("You are greeted by a very nice fellow.")
+                             println("""
+                                                   ,---.
+                                                ,.'-.   \
+                                                ( ( ,'\"\"\"\"\"-.
+                                                `,X          `.
+                                                /` `           `._
+                                              (            ,   ,_\
+                                              |          ,---.,'o `.
+                                              |         / o   \     )
+                                                \ ,.    (      .____,
+                                                \| \    \____,'     \
+                                              '`'\  \        _,____,'
+                                              \  ,--      ,-'     \
+                                                ( C     ,'         \
+                                                  `--'  .'           |
+                                                    |   |         .O |
+                                                  __|    \        ,-'_
+                                                / `L     `._  _,'  ' `.
+                                                /    `--.._  `',.   _\  `
+                                                `-.       /\  | `. ( ,\  \
+                                              _/  `-._  /  \ |--'  (     \
+                                              '  `-.   `'    \/\`.   `.    )
+                                                    \  -hrr-    \ `.  |    |
+                                """)
+                            println("How can I help you sir?")
+                            println("Yes I have lost my favorite manbun holder has anyone turned it in?")
+                            println("I am not quite sure sir let me go take a look in the back.")
+                            clubList -= "Bub City"
+                            checkedClubList += "Bub City"
+                            foundItYet(inventoryList, clubList,checkedClubList)
+                        }; line
+          case "no" =>  println("Not wanting to put off finding your favortite manbun holder any longer you decide to just let it be.")
+                        println("With a couple of loud knocks on the door........")
+                        println(checkedClubList.length)
+                        if (checkedClubList.length <= 1 ) {
+                          println("No one answers and you decide to check out the other places it could be")
+                          listOfClubs(inventoryList, clubList,checkedClubList)
+                        } else {
+                            println("You are greeted by a very nice fellow.")
+                             println("""
+                                                   ,---.
+                                                ,.'-.   \
+                                                ( ( ,'\"\"\"\"\"-.
+                                                `,X          `.
+                                                /` `           `._
+                                              (            ,   ,_\
+                                              |          ,---.,'o `.
+                                              |         / o   \     )
+                                                \ ,.    (      .____,
+                                                \| \    \____,'     \
+                                              '`'\  \        _,____,'
+                                              \  ,--      ,-'     \
+                                                ( C     ,'         \
+                                                  `--'  .'           |
+                                                    |   |         .O |
+                                                  __|    \        ,-'_
+                                                / `L     `._  _,'  ' `.
+                                                /    `--.._  `',.   _\  `
+                                                `-.       /\  | `. ( ,\  \
+                                              _/  `-._  /  \ |--'  (     \
+                                              '  `-.   `'    \/\`.   `.    )
+                                                    \  -hrr-    \ `.  |    |
+                                """)
+                            println("How can I help you sir?")
+                            println("Yes I have lost my favorite manbun holder has anyone turned it in?")
+                            println("I am not quite sure sir, I do not believe so but let me go take a look in the back.")
+                            clubList -= "Bub City"
+                            checkedClubList += "Bub City"
+                            foundItYet(inventoryList, clubList,checkedClubList)
+
+                        } ; line
+          case "inventory" => showInventory(inventoryList); getChoice
+          case _ => println("Please enter a valid input."); getChoice
+        }
+    }
+        val helpBum = getChoice
+
+        Thread.sleep(3000)
+    
+    
     // Here we want to say if you have not already decided to help the poor bum out then no one answers 
     // you can either choose to still ignore him or if you have more clubs to visit do that first.
     // if no clubs left to visit no one answers and you are given one more time to help the guy or 
@@ -671,19 +839,18 @@ object Game {
     // If you choose to help and you happened to give money to the bum from earlier you notice it is the 
     // same guy.... wonder what will happen now that you helped this dude out twice.
 
-      clubList -= "Bub City"
-      checkedClubList += "Bub City"
-      foundItYet(inventoryList, clubList,checkedClubList)
+      // clubList -= "Bub City"
+      // checkedClubList += "Bub City"
+      // foundItYet(inventoryList, clubList,checkedClubList)
 }
 
   def foundItYet(inventoryList: ArrayBuffer[String], clubList: ArrayBuffer[String],checkedClubList: ArrayBuffer[String]) {
       if (checkedClubList.length == 4 ){
           foundIt(inventoryList)
         } else {
-          println("I'm quite sorry sir but I do not see it anywhere prehaps you would like to check back tonight?")
           println("Sorry sir we have not found it, but feel free to come back tonight and we can check again. Where else have you checked?")
           println(s"Yes I have checked ${checkedClubList.mkString(" & ")} so far")
-          println("Thank you for looking.")
+          println("Thank you for looking and have a nice day.")
           listOfClubs(inventoryList, clubList,checkedClubList)
         }
   }
@@ -696,7 +863,7 @@ object Game {
             val indexOfCoffee = inventoryList.indexOf(list)
             val amountOfCoffeeLeft = list.split("\\D+").mkString.toInt - 1
             inventoryList.update(indexOfCoffee, s"${amountOfCoffeeLeft} drinks of Coffee")
-            println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+            // println("Current Inventory " + EOL + inventoryList.mkString(EOL))
         }
       }
   }
@@ -704,14 +871,19 @@ object Game {
   def addToInventory(inventoryList: ArrayBuffer[String],inventoryItem: String) {
     inventoryList += inventoryItem
     println(s"*** You added ${inventoryItem} to your inventory ***")
-    println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+    // println("Current Inventory " + EOL + inventoryList.mkString(EOL))
   }
 
 
   def removeFromInventory(inventoryList: ArrayBuffer[String],inventoryItem: String) {
       inventoryList -= inventoryItem
       println(s"*** ${inventoryItem} was removed from your inventory ***")
-      println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+      // println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+  }
+
+  def showInventory(inventoryList: ArrayBuffer[String]){
+       println("Current Inventory " + EOL + inventoryList.mkString(EOL))
+
   }
 
 
@@ -736,6 +908,7 @@ object Game {
 
    def backHome(inventoryList: ArrayBuffer[String]){
      println("BACK HOME")
+     System.exit(0)
    }
 
 }
